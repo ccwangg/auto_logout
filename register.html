@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>註冊 - ee-class</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="auth-page">
+  <header class="auth-header">國立中央大學「新 ee-class 系統」</header>
+
+  <main class="auth-main">
+    <div class="auth-card auth-card-wide">
+      <form id="registerForm">
+        <div class="form-group">
+          <label>帳號 <span class="required">*</span></label>
+          <input id="account" type="text" class="input-box" placeholder="帳號" required />
+        </div>
+        <div class="form-group">
+          <label>姓名 <span class="required">*</span></label>
+          <input id="name" type="text" class="input-box" placeholder="姓名" required />
+        </div>
+        <div class="form-group">
+          <label>密碼 <span class="required">*</span></label>
+          <div class="input-wrap">
+            <input id="password" type="password" class="input-box" placeholder="密碼長度至少8個字元" required minlength="8" style="padding-right:40px;" />
+            <button type="button" class="toggle-pwd" id="togglePwd1">👁</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>密碼確認</label>
+          <div class="input-wrap">
+            <input id="confirmPassword" type="password" class="input-box" placeholder="密碼確認" required style="padding-right:40px;" />
+            <button type="button" class="toggle-pwd" id="togglePwd2">👁</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>身份 <span class="required">*</span></label>
+          <select id="role" class="input-box" required>
+            <option value="student">學生</option>
+            <option value="teacher">老師</option>
+            <option value="ta">助教</option>
+          </select>
+        </div>
+        <div style="text-align:center;margin-top:12px;">
+          <button type="submit" class="btn btn-primary-sm" id="submitBtn">註冊</button>
+        </div>
+      </form>
+
+      <p class="auth-links-inline">
+        已經有帳號？ <a href="login.html">登入</a>
+      </p>
+    </div>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/register.js"></script>
+</body>
+</html>

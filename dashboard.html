@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>我的課程 - ee-class</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="app-page">
+  <header class="app-header">
+    <div class="app-header-title">國立中央大學「新 ee-class 系統」</div>
+    <nav class="app-header-nav">
+      <a href="dashboard.html">【我的課程】</a>
+      <div class="user-menu" id="userMenu">
+        <span class="user-menu-trigger" id="userMenuTrigger">使用者 ▾</span>
+        <ul class="user-dropdown">
+          <li id="logoutBtn">登出</li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <div class="hero-banner">
+    <h1>ee-class 易課平台</h1>
+  </div>
+
+  <div class="app-body">
+    <aside class="sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-card-head">我的首頁</div>
+        <div class="sidebar-profile">
+          <div class="avatar" id="avatarWrap">
+            <img id="avatarImg" class="hidden" alt="" />
+          </div>
+          <div class="profile-name" id="profileName">—</div>
+          <div class="profile-id" id="profileId">—</div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <section class="card">
+        <h3 class="card-title">最新公告</h3>
+        <p id="announceLoading" class="text-muted hidden">讀取中...</p>
+        <ul id="announceList" class="announce-list hidden"></ul>
+        <p id="announceEmpty" class="text-muted">目前沒有公告，或您尚未加入任何課程。</p>
+      </section>
+
+      <section class="card">
+        <h3 class="card-title">我的課程</h3>
+        <div class="course-toolbar" id="courseToolbar">
+          <!-- 依角色由 JS 填入 -->
+        </div>
+        <div id="courseGrid" class="course-grid"></div>
+        <p id="courseEmpty" class="text-muted hidden">尚未選擇任何課程</p>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <h3 id="modalTitle">課程資訊</h3>
+      <div id="modalStudentBody" class="hidden">
+        <div id="searchResultContent"></div>
+      </div>
+      <div id="modalTeacherBody" class="hidden">
+        <input id="formCourseName" class="input-box" placeholder="課程名稱" />
+        <input id="formCourseCode" class="input-box" placeholder="課程代碼" />
+        <input id="formAcademicYear" class="input-box" placeholder="學年度" />
+        <textarea id="formDescription" class="input-box" rows="3" placeholder="描述"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline" id="modalCancel">取消</button>
+        <button type="button" class="btn btn-primary hidden" id="modalEnroll" style="width:auto;padding:4px 12px;font-size:12px;">加入課程</button>
+        <button type="button" class="btn btn-success hidden" id="modalCreate">建立課程</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
