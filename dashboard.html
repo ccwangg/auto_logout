@@ -77,6 +77,15 @@
     </div>
   </div>
 
+  <div id="warningBox" class="warning-box" style="display:none;">
+    <div class="warning-card">
+      <h3>⚠️ 閒置提醒</h3>
+      <p>您已閒置一段時間，系統即將自動登出</p>
+      <p class="countdown">剩餘 <span id="countdownText">10</span> 秒</p>
+      <button onclick="confirmStillHere()">我還在使用</button>
+    </div>
+  </div>
+
   <script src="js/config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/api.js"></script>

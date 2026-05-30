@@ -324,3 +324,63 @@ $("modalCreate").addEventListener("click", createCourse);
   await fetchMyCourses();
   await fetchLatestAnnouncements();
 })();
+
+
+// 閒置提醒功能
+let idleTimer;
+let warningTimer;
+let countdown = 10;
+let isWarningVisible = false;
+
+// 測試用：10秒沒操作就提醒
+const idleLimit = 10000;
+
+function resetIdleTimer() {
+  if (isWarningVisible) return;
+
+  clearTimeout(idleTimer);
+  clearInterval(warningTimer);
+  countdown = 10;
+
+  const warningBox = document.getElementById("warningBox");
+  const countdownText = document.getElementById("countdownText");
+
+  if (warningBox) warningBox.style.display = "none";
+
+  if (countdownText) countdownText.textContent = countdown;
+
+  idleTimer = setTimeout(showWarning, idleLimit);
+}
+
+function showWarning() {
+  const warningBox = document.getElementById("warningBox");
+  const countdownText = document.getElementById("countdownText");
+
+  if (warningBox) warningBox.style.display = "flex";
+
+  warningTimer = setInterval(() => {
+    countdown--;
+    if (countdownText) {
+      countdownText.textContent = countdown;
+    }
+
+    if (countdown <= 0) {
+      clearInterval(warningTimer);
+      alert("閒置過久，系統已自動登出");
+      window.location.href = "login.html";
+    }
+  }, 1000);
+
+  isWarningVisible = true;
+}
+
+function confirmStillHere() {
+  isWarningVisible = false;
+  resetIdleTimer();
+}
+
+document.addEventListener("mousemove", resetIdleTimer);
+document.addEventListener("keydown", resetIdleTimer);
+document.addEventListener("click", resetIdleTimer);
+
+resetIdleTimer();
