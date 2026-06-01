@@ -5,6 +5,7 @@ const state = {
 };
 
 const $ = (id) => document.getElementById(id);
+const hasAuth = requireAuth();
 
 function formatDate(raw) {
   if (!raw) return "";
@@ -296,34 +297,36 @@ async function createCourse() {
   }
 }
 
-$("userMenuTrigger").addEventListener("click", () => {
-  $("userMenu").classList.toggle("open");
-});
+if (hasAuth) {
+  $("userMenuTrigger").addEventListener("click", () => {
+    $("userMenu").classList.toggle("open");
+  });
 
-document.addEventListener("click", (e) => {
-  if (!$("userMenu").contains(e.target)) {
-    $("userMenu").classList.remove("open");
-  }
-});
+  document.addEventListener("click", (e) => {
+    if (!$("userMenu").contains(e.target)) {
+      $("userMenu").classList.remove("open");
+    }
+  });
 
-$("logoutBtn").addEventListener("click", () => {
-  clearAuth();
-  window.location.href = "login.html";
-});
+  $("logoutBtn").addEventListener("click", () => {
+    clearAuth();
+    window.location.href = "login.html";
+  });
 
-$("modalCancel").addEventListener("click", closeModal);
-$("modalOverlay").addEventListener("click", (e) => {
-  if (e.target === $("modalOverlay")) closeModal();
-});
-$("modalEnroll").addEventListener("click", addCourse);
-$("modalCreate").addEventListener("click", createCourse);
+  $("modalCancel").addEventListener("click", closeModal);
+  $("modalOverlay").addEventListener("click", (e) => {
+    if (e.target === $("modalOverlay")) closeModal();
+  });
+  $("modalEnroll").addEventListener("click", addCourse);
+  $("modalCreate").addEventListener("click", createCourse);
 
-(async function init() {
-  loadUser();
-  renderToolbar();
-  await fetchMyCourses();
-  await fetchLatestAnnouncements();
-})();
+  (async function init() {
+    loadUser();
+    renderToolbar();
+    await fetchMyCourses();
+    await fetchLatestAnnouncements();
+  })();
+}
 
 
 // 閒置提醒功能
@@ -331,6 +334,7 @@ let idleTimer;
 let warningTimer;
 let countdown = 10;
 let isWarningVisible = false;
+let isLoggingOut = false;
 
 // 測試用：10秒沒操作就提醒
 const idleLimit = 10000;
@@ -353,10 +357,15 @@ function resetIdleTimer() {
 }
 
 function showWarning() {
+  if (isWarningVisible || isLoggingOut) return;
+
   const warningBox = document.getElementById("warningBox");
   const countdownText = document.getElementById("countdownText");
 
   if (warningBox) warningBox.style.display = "flex";
+  if (countdownText) countdownText.textContent = countdown;
+
+  isWarningVisible = true;
 
   warningTimer = setInterval(() => {
     countdown--;
@@ -365,22 +374,33 @@ function showWarning() {
     }
 
     if (countdown <= 0) {
-      clearInterval(warningTimer);
-      alert("閒置過久，系統已自動登出");
-      window.location.href = "login.html";
+      autoLogout();
     }
   }, 1000);
-
-  isWarningVisible = true;
 }
 
 function confirmStillHere() {
+  if (isLoggingOut) return;
+
   isWarningVisible = false;
   resetIdleTimer();
 }
 
-document.addEventListener("mousemove", resetIdleTimer);
-document.addEventListener("keydown", resetIdleTimer);
-document.addEventListener("click", resetIdleTimer);
+function autoLogout() {
+  if (isLoggingOut) return;
 
-resetIdleTimer();
+  isLoggingOut = true;
+  clearTimeout(idleTimer);
+  clearInterval(warningTimer);
+  clearAuth();
+  alert("閒置過久，系統已自動登出");
+  window.location.href = "login.html";
+}
+
+if (hasAuth) {
+  document.addEventListener("mousemove", resetIdleTimer);
+  document.addEventListener("keydown", resetIdleTimer);
+  document.addEventListener("click", resetIdleTimer);
+
+  resetIdleTimer();
+}

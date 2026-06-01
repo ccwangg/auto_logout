@@ -36,9 +36,20 @@ function clearAuth() {
 }
 
 function requireAuth() {
-  return true;
+  if (getUser()) {
+    return true;
+  }
+
+  document.body.innerHTML = "";
+  window.location.href = "login.html";
+  return false;
 }
 
 function redirectIfLoggedIn() {
-  return false;
+  if (!getUser()) {
+    return false;
+  }
+
+  window.location.href = "dashboard.html";
+  return true;
 }
